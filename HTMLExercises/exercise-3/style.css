@@ -1,0 +1,101 @@
+﻿body {
+	background-color:#121214;
+	font-size:0.6875em;
+	color:#595959;
+}
+p {
+	font-size:12.5px;
+}
+#contentLeft {
+	float:left;
+	width:500px;
+	margin-left:50px;
+	margin-right:50px;
+}
+#infoAlone {
+	margin-left:10px;
+}
+#link1 {
+	margin-bottom:50px;
+}
+.thehienkhoi {
+	display:block;
+}
+#contentRight {
+	float:left;
+	width:300px;
+	background-color:#232227;
+}
+.moreinfo a:link {
+	text-decoration: none;
+}
+.moreinfo::before {
+	content: url(arr_1.gif);
+	line-height:20px;
+}
+#contentLeft img {
+	float:left;
+	margin-right:30px;
+}
+#contentLeft>p {
+	margin-bottom:70px;
+	margin-top:50px;
+}
+#contentLeft .font-color-white {
+	margin-bottom:30px;
+}
+.font-color-white {
+	color:white;
+}
+/* unvisited link */
+.moreinfo a:link  {
+	text-decoration: none;
+}
+.moreInforLink {
+	color: white;
+}
+.itemList {
+	float:left;
+	width:50%;
+}
+
+.item:before {
+	content: url(arr.gif);
+}
+.itemList div {
+	margin-bottom:13px;
+}
+.itemList div:first-child  {
+	margin-top:10px;
+}
+.item {
+	text-decoration:underline;
+	margin-top:15px;
+}
+.hr  {
+	border: 1px dotted #C0C0C0;
+	opacity:0.2;
+	filter: alpha(opacity=20);
+}
+#mainRight {
+	width:80%;
+	margin:auto;
+	margin-left:30px;
+	margin-top:110px;
+}
+#mainRightContent {
+	margin-left:32px;
+	margin-bottom:50px;
+}
+
+#mainRight span {
+	display:block;
+}
+.divsecond {
+	margin-top:50px;
+}
+#imgPic2 {
+	margin-top:40px;
+	margin-left:30px;
+	margin-bottom:40px;
+}

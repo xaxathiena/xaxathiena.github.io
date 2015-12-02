@@ -1,0 +1,17 @@
+body{
+	width: 300px;
+}
+form{
+	width: 700px;
+}
+tr img{
+	width: 20px;
+	height: 20px;
+}
+input{
+	width: 100%;
+}
+td p{
+	margin-left: 40%;
+	margin-top: 0px;
+}

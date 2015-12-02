@@ -1,0 +1,13 @@
+body {
+	font-family:Georgia, "Time New Roman",Times,serif;
+	background-color: blue;
+}
+.text {
+	width:25%;
+}
+input {
+	margin-left: 20px;
+}
+#cmmtArea{
+	width: 1000px;
+}
