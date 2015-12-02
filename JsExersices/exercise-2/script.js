@@ -131,10 +131,10 @@ function update () {
 			var cell1 = row.insertCell(days-1);
 			var dateNumber = numb-day.getDay();
 			if(daycurb&&(dateNumber == dateCur.getDate())){
-				cell1.innerHTML = "<p onmouseout =\"" + "changeStyleMouseOut(this)\"" + "onmouseover=\"" + "changeStyleMouseOver(this)\"" + " onclick='daythClick("+dateNumber+")' style='color:red;'>"+dateNumber+"</p>";
+				cell1.innerHTML = "<p onmouseout =\"" + "changeStyleMouseOut(this)\"" + "onmouseover=\"" + "changeStyleMouseOver(this)\"" + " onclick='daythClick("+dateNumber+"); openSchedule();' style='color:red;'>"+dateNumber+"</p>";
 				numb++;
 			}else {
-				cell1.innerHTML = "<p onmouseout =\"" + "changeStyleMouseOut(this)\"" + "onmouseover=\"" + "changeStyleMouseOver(this)\"" + " onclick='daythClick("+dateNumber+")'>"+dateNumber+"</p>";
+				cell1.innerHTML = "<p onmouseout =\"" + "changeStyleMouseOut(this)\"" + "onmouseover=\"" + "changeStyleMouseOver(this)\"" + " onclick='daythClick("+dateNumber+"); openSchedule();'>"+dateNumber+"</p>";
 				numb++;
 			}
 		}else {
