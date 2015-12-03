@@ -1,32 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Page Title</title>
-<script src="script.js" charset="UTF-8"></script>
-<link rel="stylesheet" type="text/css" href="style.css">
+<title> Page Title </title>
+<script src = "script.js" charset = "UTF-8" ></script>
+<link rel = "stylesheet" type = "text/css" href = "style.css" >
 </head>
 <body>
-	<div id="check">
-		<input id ="inputText"type="text" name="dateChoice" onchange="changeInputText()">
-		<table id="tableCalendar">
+ 	<div id = "check">
+		<input id = "inputText" type = "text" name = "dateChoice" onchange = "changeInputText()">
+		<img style=' margin-bottom: -6px;width: 3%; height: 25px;' src='img/timeschedule-512.png' alt='timesschedule' onclick='hideSchedualOrNot()'>
+		<table id = "tableCalendar" style="display:none;">
 			<tr>
-				<td><img src="img/arrow-left-big.png" onclick="changeTime('leftBig')"></td>
-				<td><img src="img/arrow-left-small.png" onclick="changeTime('leftSmall')"></td> 
-				
+				<td><img src = "img/arrow-left-big.png" onclick = "changeTime('leftBig')" ></td>
+				<td><img src = "img/arrow-left-small.png" onclick = "changeTime('leftSmall')" >
+    			</td> 
 				<script>
-				buildMonth();
-				buildYear();
-			
+					buildMonth();
+					buildYear();
 				</script>
-
-				<td><img src="img/arrow-right-small.png" onclick="changeTime('rightSmall')"></td>
-				<td><img src="img/arrow-right-big.png" onclick="changeTime('rightBig')"></td>
+				<td><img src = "img/arrow-right-small.png" onclick = "changeTime('rightSmall')" ></td>
+				<td><img src = "img/arrow-right-big.png" onclick = "changeTime('rightBig')" ></td>
 			</tr>
 			<script>
-					buildDay()
-		document.getElementById("months").value =11;
-		document.getElementById("years").value=2015;
-			
+				buildDay()
+				document.getElementById("months").value = 11;
+				document.getElementById("years").value = 2015;
 				</script>
 		</table>
 	</div>

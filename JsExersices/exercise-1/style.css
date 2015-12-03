@@ -1,11 +1,15 @@
-tr{
+tr {
 	margin: auto;
 
 }
-tr img{
+tr img {
 	width: 30px;
 	height: 20%;
 }
-tr td{
-	width: 100px;
+tr td {
+	width: 80px;
+}
+td p {
+	margin-left: 30%;
+	margin-top: 0px;
 }

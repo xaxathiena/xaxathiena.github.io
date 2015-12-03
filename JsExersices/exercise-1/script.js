@@ -1,85 +1,87 @@
-var monthName = ["January","February","March","April","May","June","July","August","September","October","November","Decembevr"];
-var dayName = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-	var yearsRun = 2015;
-	var monthRun = 11;
-	var canChange=false;
-	var dateFormat;
-function daythClick( argument) {
-	if(monthRun < 10 ){
-	document.getElementById("inputText").value = yearsRun + "-0"+monthRun+"-"+argument;
-	}else document.getElementById("inputText").value = yearsRun + "-"+monthRun+"-"+argument;
+var month_name_arr = ["January","February","March","April","May","June","July","August","September","October","November","Decembevr"];
+var day_name_arr = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];	
+var date_current = new Date();
+var year_to_show = date_current.getFullYear();
+var month_to_show = date_current.getMonth() + 1;
+var haschange_input = false;
+var date_to_show_str;
+var hasshow_schedule = true;
+function daythClick( argument ) {
+	if(month_to_show < 10 ){
+	document.getElementById("inputText").value = year_to_show + "-0" + month_to_show + "-" + argument;
+	} else document.getElementById("inputText").value = year_to_show + "-" + month_to_show + "-" + argument;
 }
-function changeTime(type) {
-	switch(type){
-		case "leftBig": yearsRun--; break;
+function changeTime( type_of_change_date ) {
+	switch( type_of_change_date ) {
+		case "leftBig": 
+			year_to_show--; break;
 		case "leftSmall": 
-			monthRun--;
-			if (monthRun==0) {
-				monthRun=12;
-				yearsRun--;
+			month_to_show--;
+			if (month_to_show == 0) {
+				month_to_show = 12;
+				year_to_show--;
 			};
 		break;
-		case "rightBig": yearsRun++;break;
+		case "rightBig": 
+			year_to_show++;break;
 		case "rightSmall": 
-			monthRun++;
-			if (monthRun==13) {
-				monthRun=1;
-				yearsRun++;
+			month_to_show++;
+			if (month_to_show == 13) {
+				month_to_show = 1;
+				year_to_show++;
 			};
 		break;
 		default:break;
 	}
-	document.getElementById("months").value =monthRun;
-	document.getElementById("years").value=yearsRun;
+	document.getElementById("months").value = month_to_show;
+	document.getElementById("years").value = year_to_show;
 	update();
 }
 function changeTimeMonth() {
-	monthRun = parseInt(document.getElementById("months").value);
+	month_to_show = parseInt(document.getElementById("months").value);
 	update();
 }
 function changeTimeYear() {
-	yearsRun = parseInt(document.getElementById("years").value);
+	year_to_show = parseInt(document.getElementById("years").value);
 	update();
 }
 function changeInputText() {
-	var input = document.getElementById("inputText").value;;
-	var patt1 =new RegExp("[1-9][0-9][0-9][0-9]-([1][0-2]|[0][1-9])-[0-9]");
-	if (patt1.test(input)) {
+	var input = document.getElementById("inputText").value;
+	var date_format =new RegExp("[1-9][0-9][0-9][0-9]-([1][0-2]|[0][1-9])-[0-9]");
+	if (date_format.test(input)) {
 		
-		var checkNumb = parseInt(input.substring(6,7));
-		if (checkNumb > 0 && checkNumb < 10) {
-			dateFormat = input.substring(0,7)+"-1";
-		}else dateFormat = input.substring(0,6)+"-1";
-		alert(input.substring(6,7));
-		canChange = true;
+		var month_numb_input = parseInt(input.substring(6,7));//get month from input
+		if (month_numb_input > 0 && month_numb_input < 10) {//make date_to_show_str to correct fomat YYYY - MM - DD
+			date_to_show_str = input.substring(0,7) + "-1";
+		} else date_to_show_str = input.substring(0,6) + "-1";
+		haschange_input = true;
 		update();
-	}else{
+	} else {
 		alert("Nhập sai, nhập lại với format:YYYY-MM-D");
 	};
 }
 function update () {
-	var dayCurB = false;
-	if(!canChange){
-		dateFormat = yearsRun + "-"+monthRun+"-1";
+	var isdate_current = false;
+	if(!haschange_input){
+		date_to_show_str = year_to_show + "-"+month_to_show + "-1";
 	}
-	canChange = false;
-	var day = new Date(dateFormat);
-	var dateCur = new Date();
-	if ((dateCur.getMonth() == day.getMonth())
-		&&(dateCur.getFullYear() == day.getFullYear())) {
-		dayCurB=true;
+	haschange_input = false;
+	var date_to_show = new Date(date_to_show_str);
+	if ((date_current.getMonth() == date_to_show.getMonth())
+		&& (date_current.getFullYear() == date_to_show.getFullYear())) {
+		isdate_current = true;
 	}
-	//alert(dateFormat+dateCur.getDate());
-	var table = document.getElementById('tableCalendar');
-	var row = table.insertRow(2);
-	var numb = 1;
-	var days = day.getDay();
-	var dayNumber =0;
-	var rows = table.rows.length;
-	for (var i = 3; i < rows; i++) {
-			table.deleteRow(3);
+	//alert(date_to_show_str+date_current.getDate());
+	var table_calendar = document.getElementById('tableCalendar');
+	var tb_row_insert = table_calendar.insertRow(2);
+	var numb_of_cell_on_table = 1;
+	var weekday_of_1th = date_to_show.getDay();
+	var day_numb_of_month_show =0;
+	var row_length = table_calendar.rows.length;
+	for (var i = 3; i < row_length; i++) {
+			table_calendar.deleteRow(3);
 	}
-	switch(day.getMonth()+1) {
+	switch(date_to_show.getMonth() + 1) {
 		case 1: 
 		case 3:
 		case 5: 
@@ -87,37 +89,38 @@ function update () {
 		case 8:
 		case 10:
 		case 12:
-			dayNumber = 31; break;
+			day_numb_of_month_show = 31; break;
 		case 4: 
 		case 6: 
 		case 9: 
 		case 11:
-			dayNumber = 30;break;
+			day_numb_of_month_show = 30; break;
 		case 2:
-			if ((day.getFullYear() % 400 == 0)||((day.getFullYear() % 4 == 0)&&(day.getFullYear() % 100 != 0))) dayNumber = 29;
-			else dayNumber = 28;
+			if ((date_to_show.getFullYear() % 400 == 0)||((date_to_show.getFullYear() % 4 == 0) && (date_to_show.getFullYear() % 100 != 0))) day_numb_of_month_show = 29;
+			else day_numb_of_month_show = 28;
 			break;
-		default: dayNumber =30;
+		default: day_numb_of_month_show = 30;
 	}
 
 	for (var i = 0; i < 35; i++) {
-		if (days>0) {
-			var cell1 = row.insertCell(numb-1);
-				cell1.innerHTML = "";
-				numb++;
-				days--;
+		if (weekday_of_1th > 0) {
+			var cell_insert = tb_row_insert.insertCell(numb_of_cell_on_table-1);
+				cell_insert.innerHTML = "";
+				numb_of_cell_on_table++;
+				weekday_of_1th--;
 				continue;
 		}
-		if (numb <= (day.getDay()+dayNumber)) {
-			if((numb-1)%7==0) row = table.insertRow(parseInt(numb/7)+2);
-			var cell1 = row.insertCell(days-1);
-			var dateNumber =numb-day.getDay();
-			if(dayCurB&&(dateNumber==dateCur.getDate())){
-				cell1.innerHTML = "<p onclick='daythClick("+dateNumber+")' style='color:red;'>"+dateNumber+"</p>";
-				numb++;
+		if (numb_of_cell_on_table <= (date_to_show.getDay()+day_numb_of_month_show)) {
+			if((numb_of_cell_on_table-1) % 7 == 0) tb_row_insert = table_calendar.insertRow(parseInt(numb_of_cell_on_table/7) + 2);
+
+			var cell_insert = tb_row_insert.insertCell(weekday_of_1th - 1);
+			var day_number = numb_of_cell_on_table - date_to_show.getDay();
+			if(isdate_current && (day_number == date_current.getDate())){
+				cell_insert.innerHTML = "<p onmouseout =\"" + "changeStyleMouseOut(this)\"" + "onmouseover=\"" + "changeStyleMouseOver(this)\"" + "onclick='daythClick("+day_number+"); hideSchedualOrNot();' style='color:red;'>"+day_number+"</p>";
+				numb_of_cell_on_table++;
 			}else {
-				cell1.innerHTML = "<p onclick='daythClick("+dateNumber+")'>"+dateNumber+"</p>";
-				numb++;
+				cell_insert.innerHTML = "<p onmouseout =\"" + "changeStyleMouseOut(this)\"" + "onmouseover=\"" + "changeStyleMouseOver(this)\"" +"onclick='daythClick("+day_number+"); hideSchedualOrNot();'>"+day_number+"</p>";
+				numb_of_cell_on_table++;
 			}
 		}else {
 			break;
@@ -126,17 +129,17 @@ function update () {
 }
 
 function buildMonth() {
-	document.write("<td colspan = '2' ><select id = 'months' onchange='changeTimeMonth()'>");
-	for (var i = 0 ; i < monthName.length ; i++) {
+	document.write("<td colspan = '2' ><select id = 'months' onchange = 'changeTimeMonth()'>");
+	for (var i = 0 ; i < month_name_arr.length ; i++) {
 		var tamp = i+1;
-		document.write("<option value='" + tamp + "'>" + monthName[i] + "</option>");
+		document.write("<option value ='" + tamp + "'>" + month_name_arr[i] + "</option>");
 	};
 	document.write("</select>");
 	document.write("</td>");
 }
 
 function buildYear() {
-	document.write("<td><select id = 'years' onchange='changeTimeYear()'>");
+	document.write("<td><select id = 'years' onchange = 'changeTimeYear()'>");
 	for (var i = 1900; i < 2100; i++) {
 		document.write("<option value= '"+ i +"'>"+ i +"</option>");
 	}
@@ -145,8 +148,24 @@ function buildYear() {
 }
 function buildDay() {
 	document.write("<tr>");
-	for(var i = 0 ; i < dayName.length ; i++) {
-		document.write("<td>" + dayName[i] + "</td>");
+	for(var i = 0 ; i < day_name_arr.length ; i++) {
+		document.write("<td>" + day_name_arr[i] + "</td>");
 	};
 	document.write("</tr>");
+}
+function hideSchedualOrNot ()
+{
+	if (hasshow_schedule == true) {
+		document.getElementById('tableCalendar').style.display = "block";
+	}
+	else {
+		document.getElementById('tableCalendar').style.display = "none";
+	}
+	hasshow_schedule =! hasshow_schedule;
+}
+function changeStyleMouseOver (testsend) {
+	testsend.parentNode.style.backgroundColor = "blue";
+}
+function changeStyleMouseOut (testsend) {
+	testsend.parentNode.style.backgroundColor = "white";
 }
