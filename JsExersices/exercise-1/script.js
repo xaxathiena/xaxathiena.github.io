@@ -63,7 +63,7 @@ function changeInputText() {
 }
 function update () {
 	var isdate_current = false;
-	if(!haschange_input){
+	if(!haschange_input) {
 		date_to_show_str = year_to_show + "-"+month_to_show + "-1";
 	}
 	haschange_input = false;
@@ -159,7 +159,7 @@ function hideSchedualOrNot ()
 	if (hasshow_schedule == true) {
 		document.getElementById('tableCalendar').style.display = "block";
 	}
-	else {
+		else {
 		document.getElementById('tableCalendar').style.display = "none";
 	}
 	hasshow_schedule =! hasshow_schedule;
