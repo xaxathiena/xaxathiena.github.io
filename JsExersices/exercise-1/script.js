@@ -6,10 +6,11 @@ var month_to_show = date_current.getMonth() + 1;
 var haschange_input = false;
 var date_to_show_str;
 var hasshow_schedule = true;
-function daythClick( argument ) {
+
+function daythClick( day_numb ) {
 	if(month_to_show < 10 ){
-	document.getElementById("inputText").value = year_to_show + "-0" + month_to_show + "-" + argument;
-	} else document.getElementById("inputText").value = year_to_show + "-" + month_to_show + "-" + argument;
+	document.getElementById("inputText").value = year_to_show + "-0" + month_to_show + "-" + day_numb;
+	} else document.getElementById("inputText").value = year_to_show + "-" + month_to_show + "-" + day_numb;
 }
 function changeTime( type_of_change_date ) {
 	switch( type_of_change_date ) {

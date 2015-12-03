@@ -1,52 +1,53 @@
-var monthname = ["January","February","March","April","May","June","July","August","September","October","November","Decembevr"];
-var dayname = ["Su","Mo","Tu","Wed","Th","Fr","Sa"];
-	var yearsrun = 2015;	//Fixing year to show on schedule
-	var monthrun = 11;	    //Fixing month to show on schedule
-	var canchange = false; //check to exactly value to continue or not
-	var dateformat;        // it's a argument to get day value to show on schedule
-							//for example, if customer want to see schedule at march 2015, then format'll be 2015 - 3 - 1
-	var showscheduleornot = true;//là biết xử lý sự kiện img schedule được click. Nó dùng để quyết định show bảng schedule hay không
-	//hàm xử lý sự kiện khi 1 ngày trong lịch được click
-function daythClick(testsend) {
-	if(monthrun < 10 ) { //kiểm tra xem tháng đang show lớn hơn 10 hay không
-	document.getElementById("inputText").value = yearsrun + "-0"+monthrun+"-"+testsend;
-	} else document.getElementById("inputText").value = yearsrun + "-"+monthrun+"-"+testsend;
+var month_name_arr = ["January","February","March","April","May","June","July","August","September","October","November","Decembevr"];
+var day_name_arr = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];	
+var date_current = new Date();
+var year_to_show = date_current.getFullYear();
+var month_to_show = date_current.getMonth() + 1;
+var haschange_input = false;
+var date_to_show_str;
+var hasshow_schedule = true;
+function daythClick(day_numb) {
+	if(month_to_show < 10 ) { //kiểm tra xem tháng đang show lớn hơn 10 hay không
+	document.getElementById("inputText").value = year_to_show + "-0"+month_to_show+"-"+day_numb;
+	} else document.getElementById("inputText").value = year_to_show + "-"+month_to_show+"-"+day_numb;
 }
 /*Xử lý xự kiện khi 4 nút leftBig, leftRight, rightBig, rightLeft được click
 	Mỗi khi 1 trong 4 nút này được click, giá trị của tháng và năm sẽ thay đổi tương ứng. Sau đó vẻ lại bảng schedule
 */
-function changeTime(type) {
-	switch(type) {
-		case "leftBig": yearsrun--; break;
+function changeTime(type_of_change_date) {
+	switch( type_of_change_date ) {
+		case "leftBig": 
+			year_to_show--; break;
 		case "leftSmall": 
-			monthrun--;
-			if (monthrun == 0) {
-				monthrun = 12;
-				yearsrun--;
+			month_to_show--;
+			if (month_to_show == 0) {
+				month_to_show = 12;
+				year_to_show--;
 			};
 		break;
-		case "rightBig": yearsrun++;break;
+		case "rightBig": 
+			year_to_show++;break;
 		case "rightSmall": 
-			monthrun++;
-			if (monthrun == 13) {
-				monthrun = 1;
-				yearsrun++;
+			month_to_show++;
+			if (month_to_show == 13) {
+				month_to_show = 1;
+				year_to_show++;
 			};
 		break;
 		default:break;
 	}
-	document.getElementById("months").value =monthrun;
-	document.getElementById("years").value=yearsrun;
+	document.getElementById("months").value = month_to_show;
+	document.getElementById("years").value = year_to_show;
 	update();
 }
 //Xủ lý sự kiện khi selection Months bị thay đổi
 function changeTimeMonth() {
-	monthrun = parseInt(document.getElementById("months").value);
+	month_to_show = parseInt(document.getElementById("months").value);
 	update();
 }
 //Xủ lý sự kiện khi selection Years bị thay đổi
 function changeTimeYear() {
-	yearsrun = parseInt(document.getElementById("years").value);
+	year_to_show = parseInt(document.getElementById("years").value);
 	update();
 }
 /*
@@ -57,14 +58,14 @@ function changeTimeYear() {
 */
 function changeInputText() {
 	var input = document.getElementById("inputText").value;;
-	var patt1 =new RegExp("[1-9][0-9][0-9][0-9]-([1][0-2]|[0][1-9])-[0-9]");
-	if (patt1.test(input)) {
+	var date_format =new RegExp("[1-9][0-9][0-9][0-9]-([1][0-2]|[0][1-9])-[0-9]");
+	if (date_format.test(input)) {
 		
-		var checknumb = parseInt(input.substring(6,7));
-		if (checknumb > 0 && checknumb < 10) {
-			dateformat = input.substring(0,7)+"-1";
-		}else dateformat = input.substring(0,6)+"-1";
-		canchange = true;
+		var month_numb_input = parseInt(input.substring(6,7));
+		if (month_numb_input > 0 && month_numb_input < 10) {
+			date_to_show_str = input.substring(0,7)+"-1";
+		}else date_to_show_str = input.substring(0,6)+"-1";
+		haschange_input = true;
 		update();
 	}else{
 		alert("Nhập sai, nhập lại với format:YYYY-MM-D");
@@ -72,32 +73,27 @@ function changeInputText() {
 }
 //Vẽ ngày trong tháng của lịch
 function update () {
-	var daycurb = false;//dùng để kiểm tra xem tháng, năm đang show có phải là tháng năm hiện tại hay không.
-						// Nếu có thì daycurb sẽ là true rồi bôi đỏ ngày hiện tại
-	if(!canchange){
-		dateformat = yearsrun + "-"+monthrun+"-1";
+	var isdate_current = false;
+	if(!haschange_input){
+		date_to_show_str = year_to_show + "-"+month_to_show + "-1";
 	}
-	canchange = false;
-	var day = new Date(dateformat);
-	var dateCur = new Date();
-	//Xủ lý tháng, năm đang show có phải là tháng năm hiện tại hay không.
-	if ((dateCur.getMonth() == day.getMonth())
-		&&(dateCur.getFullYear() == day.getFullYear())) {
-		daycurb=true;
+	haschange_input = false;
+	var date_to_show = new Date(date_to_show_str);
+	if ((date_current.getMonth() == date_to_show.getMonth())
+		&& (date_current.getFullYear() == date_to_show.getFullYear())) {
+		isdate_current = true;
 	}
-
-	var table = document.getElementById('tableCalendar');
-	var row = table.insertRow(2);
-	var numb = 1;
-	var days = day.getDay();
-	var daynumber =0;    //ngày của tháng đang show
-	var rows = table.rows.length;
-	//những ô từ thứ 2 đến thứ hiện tại của mùng 1 tháng đó sẽ là rỗng
-	for (var i = 3; i < rows; i++) {
-			table.deleteRow(3);
+	//alert(date_to_show_str+date_current.getDate());
+	var table_calendar = document.getElementById('tableCalendar');
+	var tb_row_insert = table_calendar.insertRow(2);
+	var numb_of_cell_on_table = 1;
+	var weekday_of_1th = date_to_show.getDay();
+	var day_numb_of_month_show =0;
+	var row_length = table_calendar.rows.length;
+	for (var i = 3; i < row_length; i++) {
+			table_calendar.deleteRow(3);
 	}
-	//Kiểm tra năm nhuận, xuất ra số ngày của tháng đang show
-	switch(day.getMonth()+1) {
+	switch(date_to_show.getMonth() + 1) {
 		case 1: 
 		case 3:
 		case 5: 
@@ -105,37 +101,38 @@ function update () {
 		case 8:
 		case 10:
 		case 12:
-			daynumber = 31; break;
+			day_numb_of_month_show = 31; break;
 		case 4: 
 		case 6: 
 		case 9: 
 		case 11:
-			daynumber = 30;break;
+			day_numb_of_month_show = 30; break;
 		case 2:
-			if ((day.getFullYear() % 400 == 0)||((day.getFullYear() % 4 == 0)&&(day.getFullYear() % 100 != 0))) daynumber = 29;
-			else daynumber = 28;
+			if ((date_to_show.getFullYear() % 400 == 0)||((date_to_show.getFullYear() % 4 == 0) && (date_to_show.getFullYear() % 100 != 0))) day_numb_of_month_show = 29;
+			else day_numb_of_month_show = 28;
 			break;
-		default: daynumber =30;
+		default: day_numb_of_month_show = 30;
 	}
-	//vẽ những ngày trong tháng
+
 	for (var i = 0; i < 35; i++) {
-		if (days>0) {
-			var cell1 = row.insertCell(numb-1);
-				cell1.innerHTML = "";
-				numb++;
-				days--;
+		if (weekday_of_1th > 0) {
+			var cell_insert = tb_row_insert.insertCell(numb_of_cell_on_table-1);
+				cell_insert.innerHTML = "";
+				numb_of_cell_on_table++;
+				weekday_of_1th--;
 				continue;
 		}
-		if (numb <= (day.getDay()+daynumber)) {
-			if((numb-1) % 7 == 0) row = table.insertRow(parseInt(numb/7)+2);
-			var cell1 = row.insertCell(days-1);
-			var dateNumber = numb-day.getDay();
-			if(daycurb&&(dateNumber == dateCur.getDate())){
-				cell1.innerHTML = "<p onmouseout =\"" + "changeStyleMouseOut(this)\"" + "onmouseover=\"" + "changeStyleMouseOver(this)\"" + " onclick='daythClick("+dateNumber+"); openSchedule();' style='color:red;'>"+dateNumber+"</p>";
-				numb++;
+		if (numb_of_cell_on_table <= (date_to_show.getDay()+day_numb_of_month_show)) {
+			if((numb_of_cell_on_table-1) % 7 == 0) tb_row_insert = table_calendar.insertRow(parseInt(numb_of_cell_on_table/7) + 2);
+
+			var cell_insert = tb_row_insert.insertCell(weekday_of_1th - 1);
+			var day_number = numb_of_cell_on_table - date_to_show.getDay();
+			if(isdate_current && (day_number == date_current.getDate())){
+				cell_insert.innerHTML = "<p onmouseout =\"" + "changeStyleMouseOut(this)\"" + "onmouseover=\"" + "changeStyleMouseOver(this)\"" + "onclick='daythClick("+day_number+"); hideSchedualOrNot();' style='color:red;'>"+day_number+"</p>";
+				numb_of_cell_on_table++;
 			}else {
-				cell1.innerHTML = "<p onmouseout =\"" + "changeStyleMouseOut(this)\"" + "onmouseover=\"" + "changeStyleMouseOver(this)\"" + " onclick='daythClick("+dateNumber+"); openSchedule();'>"+dateNumber+"</p>";
-				numb++;
+				cell_insert.innerHTML = "<p onmouseout =\"" + "changeStyleMouseOut(this)\"" + "onmouseover=\"" + "changeStyleMouseOver(this)\"" +"onclick='daythClick("+day_number+"); hideSchedualOrNot();'>"+day_number+"</p>";
+				numb_of_cell_on_table++;
 			}
 		}else {
 			break;
@@ -143,19 +140,19 @@ function update () {
 	};
 }
 //Xủ lý xự kiện khi rê chuột qua từng ngày trong lịch
-function changeStyleMouseOver (testsend) {
-	testsend.parentNode.style.backgroundColor ="blue";
+function changeStyleMouseOver (day_numb) {
+	day_numb.parentNode.style.backgroundColor ="blue";
 }
-function changeStyleMouseOut (testsend) {
-	testsend.parentNode.style.backgroundColor ="white";
+function changeStyleMouseOut (day_numb) {
+	day_numb.parentNode.style.backgroundColor ="white";
 }
 //----------------------------------------------------
 //vẽ selection tháng
 function buildMonth() {
 	document.write("<td colspan = '2' ><select id = 'months' onchange='changeTimeMonth()'>");
-	for (var i = 0 ; i < monthname.length ; i++) {
+	for (var i = 0 ; i < month_name_arr.length ; i++) {
 		var tamp = i + 1;
-		document.write("<option value='" + tamp + "'>" + monthname[i] + "</option>");
+		document.write("<option value='" + tamp + "'>" + month_name_arr[i] + "</option>");
 	};
 	document.write("</select>");
 	document.write("</td>");	
@@ -174,14 +171,14 @@ function buildYear() {
 //vẽ thứ trong tuần
 function buildDay() {
 	document.write("<tr>");
-	for(var i = 0 ; i < dayname.length ; i++) {
-		document.write("<td>" + dayname[i] + "</td>");
+	for(var i = 0 ; i < day_name_arr.length ; i++) {
+		document.write("<td>" + day_name_arr[i] + "</td>");
 	};
 	document.write("</tr>");
 }
 function builAll() {
 		document.write("<input style='width:87%;' id ='inputText' type='text' name='dateChoice' onchange='changeInputText()'>");
-		document.write("<img style=' margin-bottom: -6px;width: 11%; height: 25px;' src='img/timeschedule-512.png' alt='timesschedule' onclick='openSchedule()'>");
+		document.write("<img style=' margin-bottom: -6px;width: 11%; height: 25px;' src='img/timeschedule-512.png' alt='timesschedule' onclick='hideSchedualOrNot()'>");
 		document.write("<div id='schedule'>");
 		document.write("<table id='tableCalendar'>");
 			document.write("<tr>");
@@ -254,13 +251,13 @@ function checkValue (testsend,casechoice) {
 }
 
 //Xử lý xự kiện khi img schedule được click
-function openSchedule ()
+function hideSchedualOrNot ()
 {
-	if (showscheduleornot == true) {
+	if (hasshow_schedule == true) {
 		document.getElementById('schedule').style.display= "block";
 	}
 	else {
 		document.getElementById('schedule').style.display= "none";
 	}
-	showscheduleornot =! showscheduleornot;
+	hasshow_schedule =! hasshow_schedule;
 }
