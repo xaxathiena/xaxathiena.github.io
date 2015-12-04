@@ -1,14 +1,10 @@
 var anh_ar = [];
 var img_numb = 0;
-var chay;
+var run_slider;
 var hasRun = true;
 var circle_numb = 0;
-function loadAnh () {
-	for (var i =0; i < 5; i++ ) {
-		anh_ar[i] = new Image();
-		anh_ar[i].src = "img/anh" + i + ".jpg";
-	};
-}
+var speed = 1000/60; // 60 Frame per second
+var opacity = 100;
 function first () {
 	if (img_numb <= 10) {
 		img_numb = 0;
@@ -23,19 +19,11 @@ function last () {
 }
 function play () {
 	if (hasRun) {
-		chay = setInterval(function(){next()},1000);
+		run_slider = setInterval(function(){next()},3000);
 		hasRun = false;
 	};
 	
 }
-function stop () {
-	if (!hasRun) {
-		clearInterval(chay);
-	};
-}
-
-var speed = 1000/60; // 60 Frame per second
-var opacity = 100;
 function next() {
 	var img = document.getElementById('img1');
 	var	circle = document.getElementsByClassName("circle");
@@ -107,3 +95,4 @@ function changeImgByIcon (imgNumb) {
 	circle_numb = imgNumb;
 	back();
 }
+play();
