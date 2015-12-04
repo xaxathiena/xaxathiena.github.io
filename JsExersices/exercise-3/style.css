@@ -1,0 +1,27 @@
+body {
+	background-image: url("img/background.png");
+}
+h1 { 
+	color: #05fdba;
+}
+#icon_left {
+	position: relative;
+    width: 40px;
+    top: -200px;
+    left: -42%;
+    opacity: 0.3;
+}
+#icon_right {
+	position: relative;
+    width: 40px;
+    top: -200px;
+    right: -42%;
+    opacity: 0.3;
+}
+#slider_screen {
+
+}
+#img1{
+	border-width:5px;	
+    border-style:groove;
+}
