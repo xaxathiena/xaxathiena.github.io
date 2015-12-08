@@ -1,11 +1,3 @@
 body{
   margin: auto;
 }
-#situation-place {
-  background-image: url("../img/background-situation.png");
-}
-#main {
-  background-image: url("../img/bg.jpg");
-  margin-top: -3px;
-  border: 0px;
-}

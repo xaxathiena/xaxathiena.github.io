@@ -5,7 +5,8 @@ var situation_canvas = document.getElementById("situation-place");
 var situation_ctx = situation_canvas.getContext("2d");
 
 
-
+const FPS = 60;
+const TICKS = 1000/FPS;
 var clockRadius = 100;
 var monter_positionX = main_canvas.width / 2;//width center of canvas
 var monter_positionY = main_canvas.height / 2;//height center of canvas
@@ -17,21 +18,36 @@ var monters_numb = 20;
 var monters_appeared_mub;
 var auto_run_monter;
 var auto_run_level;
+var main_run;
 
 //paramaters
 var speed = 1000;
 var speed_monter = 1.0;
+var time_change_level = 20000;
 var score = 0;
 var level = 1;
 var lives = 5;
+var livesBonus = 0;
 var boom_numb = 3;
 var stop_numb = 3;
 var pause_numb = 3;
-var isPause = false;
-var isReset = false;
-var livesBonus = 0;
+var start_time;
+var remaining_time = 20000;
+//check img loaded or not
+var isLoad_boom = false;
+var isLoad_pause = false;
+var isLoad_reset = false;
+var isLoad_stop = false;
+var isLoad_heart = false;
+var isLoad_play = false;
+var isHeart_big = false;
 //status of game
 var canClick = true;
+var canUse_boom = true;
+var canPause = true;
+var canStop = true;
+var canReset = true;
+var canPlay = false;
 
 //set position of situation element
 var distanceY_left_info = 30;
@@ -44,44 +60,126 @@ var scoreY = 40;
 var livesY = scoreY + distanceY_left_info;
 var speedY = livesY + distanceY_left_info;
 
+//setting img element
 var img = new Image();
 img.src='img/prettymonter.png';
 var img_heart = new Image();
 img_heart.src='img/misc_game_life-128.png';
-
-
+var boom_icon = new Image();
+boom_icon.src = "img/boom_icon.png";
+var stop_icon = new Image();
+stop_icon.src = "img/stop.png";
+var pause_icon = new Image();
+pause_icon.src = "img/pause_icon.png";
+var reset_icon = new Image();
+reset_icon.src = "img/reset-icon.png";
+var play_icon = new Image();
+play_icon.src = "img/play_icon.png";
 //handing event mouse click
 function mouseMoveHandler(e) {
+
+//handing event click options (boom, reset, pause, stop)
+var relativeX_situation = e.clientX - situation_canvas.offsetLeft;
+var relativeY_situation = e.clientY - situation_canvas.offsetTop;
+  if (relativeY_situation > 0 && relativeY_situation < 110) {//clicked on situation place
+    if (relativeY_situation > 60 && relativeY_situation < 100) {//height of all option
+      if (relativeX_situation > boomX && relativeX_situation < (boomX + 40)) {
+        handingEventOptionClicked("boom");
+        return;
+      }
+      if (relativeX_situation > stopX && relativeX_situation < (stopX + 40)) {
+        handingEventOptionClicked("stop");
+        return;
+      }
+      if (relativeX_situation > pauseX && relativeX_situation < (pauseX + 40)) {
+        handingEventOptionClicked("pause");
+        return;
+      }
+      if (relativeX_situation > resetX && relativeX_situation < (resetX + 40)) {
+        handingEventOptionClicked("reset");
+        return;
+      }
+    }
+    return;
+  }
+//handing event click main space
 if (canClick) {
+  var relativeX_main = e.clientX - main_canvas.offsetLeft;
+  var relativeY_main = e.clientY - main_canvas.offsetTop;
   var isHit = false;
-  var relativeX = e.clientX - main_canvas.offsetLeft;
-  var relativeY = e.clientY - main_canvas.offsetTop;
-  console.log(relativeX + " " + relativeY);
   for (var i = 0; i < monters_appeared_mub; i++) {
-    console.log( monters[i].x + " " + monters[i].y);
     if (monters[i].status == 1 && //handing status of monter
-      (relativeX > monters[i].x - 50) && (relativeX < monters[i].x + 50) && //if mouse point > leftSide and < rightSide of monter
-      (relativeY > monters[i].y - 50) && (relativeY < monters[i].y + 50)) {//if mouse point > topSide and < bottomSide of mnter
+      (relativeX_main > monters[i].x - 50) && (relativeX_main < monters[i].x + 50) && //if mouse point > leftSide and < rightSide of monter
+      (relativeY_main > monters[i].y - 50) && (relativeY_main < monters[i].y + 50)) {//if mouse point > topSide and < bottomSide of mnter
         monters[i].status = 0;
         score ++;
         livesBonus++;
         if (livesBonus == 5) {
           lives++;
+          if (lives == 8) {
+            isHeart_big = true;
+          }
           livesBonus = 0;
         }
         isHit = true;
-        console.log(score);
       }
     }
     if (!isHit) {
       lives--;
+      if (lives < 8) {
+        isHeart_big = false;
+      }
     }
   }
 }
 
 document.addEventListener("mousedown", mouseMoveHandler, false);
 
-
+function handingEventOptionClicked(option) {
+  switch (option) {
+    case "boom":
+    if (canUse_boom) {
+      if (--boom_numb < 1) {
+        canUse_boom = false;
+      }
+    }
+    console.log("boom is clicked!");
+    break;
+    case "stop":
+      if (canStop) {
+        if (--stop_numb < 1) {
+          canStop = false;
+        }
+      }
+      console.log("stop is clicked!");
+    break;
+    case "pause":
+    if (( pause_numb == 0 && !canPause)|| canPlay) {
+        //run
+        auto_run_monter = setInterval(run,10);
+        auto_run_level = setInterval(runNewMonter,speed);
+        main_run = setInterval(resetLevel,remaining_time);
+        canPlay = false;
+        canPause = true;
+    } else if(canPause && pause_numb > 0){
+      clearInterval(auto_run_monter);
+      clearInterval(auto_run_level);
+      clearInterval(main_run);
+      pause_numb--;
+      canPlay = !canPlay;
+      canPause = !canPause;
+      situation_ctx.clearRect(0,0,situation_canvas.width,situation_canvas.height);
+      drawSituation();
+    }
+      console.log("pause is clicked!");
+      break;
+    case "reset":
+      console.log("reset is clicked!");
+      break;
+    default:
+      console.log("wrong place is clicked!");
+  }
+}
 //draw all parameters of game's situation
 function drawSituation() {
   drawScore();
@@ -102,9 +200,23 @@ function drawLives() {
   situation_ctx.font ="20px Comic Sans MS";
   situation_ctx.fillStyle = "red";
   situation_ctx.fillText("Heart: ", 80, livesY);
-  for (var i = 0; i < lives; i++) {
-    situation_ctx.drawImage(img_heart, 160 + i*30, livesY-distanceY_left_info + 5, 30, 30);
+  if (!isHeart_big) {
+    if (!isLoad_heart) {
+      img_heart.onload = function () {
+        for (var i = 0; i < lives; i++) {
+          situation_ctx.drawImage(img_heart, 160 + i*30, livesY-distanceY_left_info + 5, 30, 30);
+        }
+      }
+      isLoad_heart = true;
+    } else for (var i = 0; i < lives; i++) {
+      situation_ctx.drawImage(img_heart, 160 + i*30, livesY-distanceY_left_info + 5, 30, 30);
+    }
+  } else {
+    situation_ctx.drawImage(img_heart, 180, livesY-distanceY_left_info + 5, 30, 30);
+    situation_ctx.fillStyle = "red";
+    situation_ctx.fillText(lives, 160, livesY - 5 + 5);
   }
+
 }
 function drawSpeed() {
   situation_ctx.font = "20px Comic Sans MS";
@@ -120,38 +232,48 @@ function drawLevel() {
   situation_ctx.fillText(level, stopX + 70, scoreY - 10);
 }
 function drawOptionIcon() {
-
   situation_ctx.font = "20px Comic Sans MS";
   situation_ctx.fillStyle = "red";
   situation_ctx.fillText(boom_numb,boomX + 10,60);
-  var boom_icon = new Image();
-  boom_icon.src = "img/boom_icon.png";
-  boom_icon.onload = function () {
-    situation_ctx.drawImage(boom_icon,boomX,60,40,40);
-  }
+  if (!isLoad_boom) {
+    boom_icon.onload = function () {
+      situation_ctx.drawImage(boom_icon,boomX,60,40,40);
+    }
+    isLoad_boom = true;
+  } else  situation_ctx.drawImage(boom_icon,boomX,60,40,40);
+
   situation_ctx.font = "20px Comic Sans MS";
   situation_ctx.fillStyle = "red";
   situation_ctx.fillText(stop_numb,stopX + 12,60);
-  var stop_icon = new Image();
-  stop_icon.src = "img/Stop.png";
-  stop_icon.onload = function () {
-    situation_ctx.drawImage(stop_icon,stopX,60,40,40);
-  }
+  if (!isLoad_stop) {
+    stop_icon.onload = function () {
+      situation_ctx.drawImage(stop_icon,stopX,60,40,40);
+    }
+    isLoad_stop = true;
+  } else situation_ctx.drawImage(stop_icon,stopX,60,40,40);
+
   situation_ctx.font = "20px Comic Sans MS";
   situation_ctx.fillStyle = "red";
   situation_ctx.fillText(pause_numb,pauseX + 12,60);
-  var pause_icon = new Image();
-  pause_icon.src = "img/pause_icon.png";
-  pause_icon.onload = function () {
-    situation_ctx.drawImage(pause_icon,pauseX,60,40,40);
-  }
-  var reset_icon = new Image();
-  reset_icon.src = "img/reset-icon.png";
-  reset_icon.onload = function () {
-    situation_ctx.drawImage(reset_icon,resetX,60,40,40);
-  }
+  if (!isLoad_pause) {
+    pause_icon.onload = function () {
+      situation_ctx.drawImage(pause_icon,pauseX,60,40,40);
+    }
+    isLoad_pause = true;
+  } else if (canPlay) {
+        situation_ctx.drawImage(play_icon,pauseX,60,40,40);
+  } else situation_ctx.drawImage(pause_icon,pauseX,60,40,40);
+
+  if (!isLoad_reset) {
+    reset_icon.onload = function () {
+      situation_ctx.drawImage(reset_icon,resetX,60,40,40);
+    }
+    isLoad_reset = true;
+  } else situation_ctx.drawImage(reset_icon,resetX,60,40,40);
+
 }
 drawSituation();
+
 //------------------------------------------------------
 function reset(){
   for (var i = 0; i < monters_numb; i++) {
@@ -184,6 +306,9 @@ function update () {
       (monters[i].y + 50) < 0 || (monters[i].y + 50) > main_canvas.height)//monters moving out the height screen
       {
         lives--;
+        if (lives < 8) {
+          isHeart_big = false;
+        }
         monters[i].status = 0;
       } else {
         monters[i].x += monters[i].run_stepX * speed_monter;
@@ -194,11 +319,14 @@ function update () {
 }
 
 function run() {
+  var real_time = new Date().getTime();
+  remaining_time = 20000 - real_time + start_time;//caculation remaining time to change level
+  console.log(remaining_time);
   update();
   drawMonters();
   drawSituation();
 }
-function main() {
+function runNewMonter() {
   setNewMonter();
   if (monters_appeared_mub < 20) {
     monters_appeared_mub++;
@@ -207,7 +335,14 @@ function main() {
 }
 
 function resetLevel(argument) {
+  if (time_change_level != remaining_time) {
+    remaining_time = 20000;
+    clearInterval(main_run);
+    main();
+    return;
+  }
   reset();
+  start_time = new Date().getTime();
   clearInterval(auto_run_level);
   speed -= 200;
   if (speed <= 0) {
@@ -216,7 +351,11 @@ function resetLevel(argument) {
   speed_monter += 0.1;
   level = parseInt(speed_monter*10 - 10);
   monters_appeared_mub = 0;
-  auto_run_level = setInterval(main,speed);
+  auto_run_level = setInterval(runNewMonter,speed);
 }
-resetLevel();
-setInterval(resetLevel,20000);
+function main() {
+  resetLevel();
+  drawOptionIcon();
+  main_run = setInterval(resetLevel,20000);
+}
+main();
