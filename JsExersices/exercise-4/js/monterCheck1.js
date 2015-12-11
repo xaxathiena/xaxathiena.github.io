@@ -96,33 +96,37 @@ var relativeY_main = e.clientY - main_canvas.offsetTop;
 //handing event click options (boom, reset, pause, stop)
 if (relativeY_situation > 0 && relativeY_situation < 110) {//clicked on situation place
   if (relativeY_situation > 60 && relativeY_situation < 100) {//height of all option
-    if (relativeX_situation > boomX && relativeX_situation < (boomX + 40)) {
-      if (canclick_boom) {
-        handingEventOptionClicked("boom");
-        return;
-      }
-    }
-    if (relativeX_situation > stopX && relativeX_situation < (stopX + 40)) {
-      if (canclick_stop) {
-        handingEventOptionClicked("stop");
-        return;
-      }
-    }
-    if (relativeX_situation > pauseX && relativeX_situation < (pauseX + 40)) {
-      if (canClick_pause) {
-        handingEventOptionClicked("pause");
-        return;
-      }
-    }
     if (relativeX_situation > resetX && relativeX_situation < (resetX + 40)) {
       handingEventOptionClicked("reset");
       return;
     }
   }
-  return;
 }
-//handing event click main space
-if (canClick) {
+if (canClick||canPlay) {
+  if (relativeY_situation > 0 && relativeY_situation < 110) {//clicked on situation place
+    if (relativeY_situation > 60 && relativeY_situation < 100) {//height of all option
+      if (relativeX_situation > boomX && relativeX_situation < (boomX + 40)) {
+        if (canclick_boom) {
+          handingEventOptionClicked("boom");
+          return;
+        }
+      }
+      if (relativeX_situation > stopX && relativeX_situation < (stopX + 40)) {
+        if (canclick_stop) {
+          handingEventOptionClicked("stop");
+          return;
+        }
+      }
+      if (relativeX_situation > pauseX && relativeX_situation < (pauseX + 40)) {
+        if (canClick_pause) {
+          handingEventOptionClicked("pause");
+          return;
+        }
+      }
+    }
+    return;
+  }
+  //handing event click main space
   var isHit = false;
   for (var i = 0; i < ((monters_appeared_mub < monters_numb)?monters_appeared_mub:20); i++) {
     if (monters[i].status == 1 && //handing status of monter
