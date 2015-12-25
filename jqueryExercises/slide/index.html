@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Slide - Jquery</title>
+    <script type="text/javascript" src="js/jquery-1.11.3.js">
+    </script>
+    <link rel="stylesheet" href="css/style.css" media="screen" title="no title" charset="utf-8">
+  </head>
+  <body>
+    <center>
+    <div id="bigPic">
+      <img id="img1" class="show-img" src="" alt="" display="block"/>
+      <img id="img2" class="show-img" src="" alt="" display="none"/>
+      <img id = "icon_left" src = "res/imgs/Button-Back-512.png" width = "40" onclick = 'back()' onmouseover = "mouseOverIcon(this)" onmouseout = "mouseOutIcon(this)">
+			<img id = "icon_right" src = "res/imgs/Button-Next-512.png" width = "40" onclick = 'next()' onmouseover = "mouseOverIcon(this)" onmouseout = "mouseOutIcon(this)">
+    </div>
+    <div id = "circle_turn">
+				<img class = "circle" src = "res/imgs/circle-blue.png" width = "20" onclick = "changeImgByIcon(1)">
+				<img class = "circle" src = "res/imgs/circle-black.png" width = "20"  onclick = "changeImgByIcon(2)">
+				<img class = "circle" src = "res/imgs/circle-black.png" width = "20"  onclick = "changeImgByIcon(3)">
+				<img class = "circle" src = "res/imgs/circle-black.png" width = "20"  onclick = "changeImgByIcon(4)">
+				<img class = "circle" src = "res/imgs/circle-black.png" width = "20"  onclick = "changeImgByIcon(5)">
+			</div>
+    </center>
+      <script type="text/javascript" src="js/script.js">
+      </script>
+  </body>
+</html>

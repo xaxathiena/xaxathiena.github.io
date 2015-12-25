@@ -1,0 +1,25 @@
+#bigPic {
+  position: relative;
+	width:940px;
+	height:300px;
+	background-color:#000;
+  border: 1px solid #0018fe;
+}
+#bigPic .show-img {
+	position:relative;
+}
+#icon_left {
+  position: absolute;
+  left: 2%;
+  top: 120px;
+  opacity: 0.5;
+}
+#icon_right {
+  position: absolute;
+  right: 2%;
+  top: 120px;
+  opacity: 0.5;
+}
+#circle_turn {
+  margin-top: 20px;
+}
