@@ -65,7 +65,12 @@ function intemClick(type) {
     document.getElementById("content").innerHTML = "<iframe width='900' height='580' scrolling='no' frameborder='0' src=\"content/cloze.htm\"></iframe>";
       console.log("crossword's clicked!");
     break;
-
+    case "overview":
+    document.getElementById("content").innerHTML = "<iframe width='900' height='580' scrolling='no' frameborder='0' src=\"content/overview.html\"></iframe>";
+    break;
+    case "home":
+    document.getElementById("content").innerHTML = "<iframe width='900' height='580' scrolling='no' frameborder='0' src=\"content/home.html\"></iframe>";
+    break;
     default:
 
   }

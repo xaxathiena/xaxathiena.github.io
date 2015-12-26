@@ -5,7 +5,7 @@
 }
 #logo_img h1 {
   float: left;
-  margin-left: 110px;
+  margin-left: 2%;
   margin-top: 30px;
   font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
 }
@@ -14,11 +14,11 @@
 }
 #logo {
   height: 100px;
-  background: #2e7bcf url(../images/header-bg.jpg) 0 0 repeat-x;
+  background: #2e7bcf url(../img/header-bg.jpg) 0 0 repeat-x;
   color:white;
   font-size: 15px;
-    font-weight: 400;
-    line-height: 1.5;
+  font-weight: 400;
+  line-height: 1.5;
 }
 #slider {
   height: 250px;
@@ -34,7 +34,7 @@
 }
 #more {
   height: 100px;
-  background-color: #1ee0f1;
+  background-color: #5e7992;
 }
 #jssor_1 {
   position: absolute;
@@ -53,56 +53,87 @@
   height: 250px;
 }
 /* jssor slider bullet navigator skin 01 css */
-        /*
-        .jssorb01 div           (normal)
-        .jssorb01 div:hover     (normal mouseover)
-        .jssorb01 .av           (active)
-        .jssorb01 .av:hover     (active mouseover)
-        .jssorb01 .dn           (mousedown)
-        */
-        .jssorb01 {
-            position: absolute;
-            left: 45%;
-            top:230px;
-        }
-        .jssorb01 div, .jssorb01 div:hover, .jssorb01 .av {
-            /* size of bullet elment */
-            width: 12px;
-            height: 12px;
-            filter: alpha(opacity=70);
-            opacity: .7;
-            overflow: hidden;
-            cursor: pointer;
-            border: #000 1px solid;
-        }
-        .jssorb01 div { background-color: gray; }
-        .jssorb01 div:hover, .jssorb01 .av:hover { background-color: #d3d3d3; }
-        .jssorb01 .av { background-color: #fff; }
-        .jssorb01 .dn, .jssorb01 .dn:hover { background-color: #555555; }
+/*
+.jssorb01 div           (normal)
+.jssorb01 div:hover     (normal mouseover)
+.jssorb01 .av           (active)
+.jssorb01 .av:hover     (active mouseover)
+.jssorb01 .dn           (mousedown)
+*/
+.jssorb01 {
+  position: absolute;
+  left: 45%;
+  top:230px;
+}
+.jssorb01 div, .jssorb01 div:hover, .jssorb01 .av {
+  /* size of bullet elment */
+  width: 12px;
+  height: 12px;
+  filter: alpha(opacity=70);
+  opacity: .7;
+  overflow: hidden;
+  cursor: pointer;
+  border: #000 1px solid;
+}
+.jssorb01 div { background-color: gray; }
+.jssorb01 div:hover, .jssorb01 .av:hover { background-color: #d3d3d3; }
+.jssorb01 .av { background-color: #fff; }
+.jssorb01 .dn, .jssorb01 .dn:hover { background-color: #555555; }
 
-        /* jssor slider arrow navigator skin 05 css */
-        /*
-        .jssora05l                  (normal)
-        .jssora05r                  (normal)
-        .jssora05l:hover            (normal mouseover)
-        .jssora05r:hover            (normal mouseover)
-        .jssora05l.jssora05ldn      (mousedown)
-        .jssora05r.jssora05rdn      (mousedown)
-        */
-        .jssora05l, .jssora05r {
-            position: absolute;
-            display: block;
-            /* size of arrow element */
-            top: 90px;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            background: url('../img/a17.png') no-repeat;
-            overflow: hidden;
-        }
-        .jssora05l { background-position: -10px -40px; }
-        .jssora05r { background-position: -70px -40px; }
-        .jssora05l:hover { background-position: -130px -40px; }
-        .jssora05r:hover { background-position: -190px -40px; }
-        .jssora05l.jssora05ldn { background-position: -250px -40px; }
-        .jssora05r.jssora05rdn { background-position: -310px -40px; }
+/* jssor slider arrow navigator skin 05 css */
+/*
+.jssora05l                  (normal)
+.jssora05r                  (normal)
+.jssora05l:hover            (normal mouseover)
+.jssora05r:hover            (normal mouseover)
+.jssora05l.jssora05ldn      (mousedown)
+.jssora05r.jssora05rdn      (mousedown)
+*/
+.jssora05l, .jssora05r {
+  position: absolute;
+  display: block;
+  /* size of arrow element */
+  top: 90px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  background: url('../img/a17.png') no-repeat;
+  overflow: hidden;
+}
+.jssora05l { background-position: -10px -40px; }
+.jssora05r { background-position: -70px -40px; }
+.jssora05l:hover { background-position: -130px -40px; }
+.jssora05r:hover { background-position: -190px -40px; }
+.jssora05l.jssora05ldn { background-position: -250px -40px; }
+.jssora05r.jssora05rdn { background-position: -310px -40px; }
+.member {
+  float: left;
+  width: 282px;
+  height: 80px;
+  color: #fff;
+}
+.member img {
+  float: left;
+}
+.member h4{
+  position: relative;
+  width: 100%;
+}
+.member div{
+  position: relative;
+  width: 100%;
+}
+.member1 {
+  margin-right: 29px;
+}
+.memberInfo {
+  margin-top: 12px;
+  color: #000;
+}
+.member2 {
+  margin-right: 21px;
+}
+.memberInfo h4 {
+  margin-bottom: 7px;
+  left: 5px;
+}
