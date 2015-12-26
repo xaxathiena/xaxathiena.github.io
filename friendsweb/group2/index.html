@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Group 2</title>
+  <link rel="stylesheet" href="css/style.css" media="screen" title="no title" charset="utf-8">
+  <link href="css/main.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+  <script type="text/javascript" src="js/jssor.slider.mini.js"></script>
+</head>
+<body>
+  <center>
+    <div id="main">
+      <div id="logo">
+        <div id="logo_img">
+          <h1>Group 2 information about somethinge</h1>
+        </div>
+      </div>
+      <div id="slider">
+        <div id="jssor_1">
+          <div data-u="slides" style="cursor: default; position: relative;width: 900px; height: 300px; overflow: hidden;">
+            <div data-p="112.50" style="display: none;">
+              <img class="img-slide" data-u="image" src="img/01.jpg" />
+            </div>
+            <div data-p="112.50" style="display: none;">
+              <img class="img-slide" data-u="image" src="img/02.jpg" />
+            </div>
+            <div data-p="112.50" style="display: none;">
+              <img class="img-slide" data-u="image" src="img/03.jpg" />
+            </div>
+            <div data-p="112.50" style="display: none;">
+              <img class="img-slide" data-u="image" src="img/04.jpg" />
+            </div>
+          </div>
+          <!-- Bullet Navigator -->
+          <div data-u="navigator" class="jssorb01" style="bottom:16px;right:16px;">
+            <div data-u="prototype" style="width:12px;height:12px;"></div>
+          </div>
+          <!-- Arrow Navigator -->
+          <span data-u="arrowleft" class="jssora05l" style="left:8px;width:40px;height:40px;"></span>
+          <span data-u="arrowright" class="jssora05r" style="right:8px;width:40px;height:40px;"></span>
+        </div>
+      </div>
+      <div id="menu">
+        <ul class="menu">
+          <li><a href="#">Home</a></li>
+          <li><a href="#s1">Overview</a></li>
+          <li class="active"><a href="#s2">Exercises</a>
+            <ul class="submenu">
+              <li onclick="intemClick('matching')"><a href="#">Matching </a></li>
+              <li onclick="intemClick('muilple_choice')"><a href="#">Multiple-choice</a></li>
+              <li onclick="intemClick('crossword')"><a href="#">Crossword</a></li>
+              <li onclick="intemClick('clozeTest')"><a href="#">Cloze test</a></li>
+
+            </ul>
+          </li>
+          <li><a href="#">Reference</a></li>
+        </ul>
+      </div>
+      <div id="content">
+
+      </div>
+
+      <div id="more">
+      </div>
+      <div>
+      </div>
+    </center>
+    <script type="text/javascript" src="js/script.js">
+    </script>
+    <script>
+      document.getElementById("content").innerHTML = "<iframe width='900' height='580' frameborder='0' scrolling='no' src=\"content/multiple-choice.htm\"></iframe>";
+    </script>
+  </body>
+  </html>
