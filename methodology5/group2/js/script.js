@@ -71,6 +71,9 @@ function intemClick(type) {
     case "home":
     document.getElementById("content").innerHTML = "<iframe width='900' height='580' scrolling='no' frameborder='0' src=\"content/home.html\"></iframe>";
     break;
+    case "reference":
+    document.getElementById("content").innerHTML = "<iframe width='900' height='580' scrolling='no' frameborder='0' src=\"content/reference.html\"></iframe>";
+    break;
     default:
 
   }
