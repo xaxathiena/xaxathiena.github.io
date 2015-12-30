@@ -12,7 +12,6 @@
     <script type="text/javascript" src="js/script.js">
 
     </script>
-    <form>
 		<div>
 			<table>
 					<tr>
@@ -37,6 +36,7 @@
 								builAllIntitial();
 							</script>
 						</td>
+            <td><div id = "check_birthday"></div></td>
 					</tr>
 				</table>
 				<div style = "margin-left:150px;">
@@ -48,11 +48,12 @@
 				</button>
 				</div>
 			</div>
-		</form>
     <script>
       $("#btn_submit").click(function () {
-        alert("it work!");
         checkAjax();
+      });
+      $("#btn_refresh").click(function () {
+        refresh();
       });
     </script>
   </body>

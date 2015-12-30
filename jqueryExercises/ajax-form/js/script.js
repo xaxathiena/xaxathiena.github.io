@@ -6,8 +6,10 @@ var month_to_show = date_current.getMonth() + 1;
 var haschange_input = false;
 var date_to_show_str;
 var hasShow_schedule = true;
+//get HTML element
 function daythClick( day_numb ) {
 	$("#inputText").val(day_numb + "-" + month_to_show + "-" + year_to_show);
+		$("#check_birthday").text("");
 }
 function hideSchedualOrNot () {
 	$("#tableCalendar").fadeToggle("1000");
@@ -263,6 +265,31 @@ function checkLength(val) {
 	else return false;
 }
 function checkAjax() {
+
+	var isAllField_Fill = true;
+	if ($("#passWord").val() == "") {
+		$("#check_password").text("This Field is required!");
+		console.log("ps work");
+		isAllField_Fill = false;
+	}
+	if ($("#user_name").val() == "") {
+		$("#check_user_name").text("This Field is required!");
+		console.log("username worked");
+		isAllField_Fill = false;
+	}
+	if ($("#email").val() == "") {
+		$("#check_email").text("This Field is required!");
+		console.log("email worked");
+		isAllField_Fill = false;
+	}
+	if ($("#inputText").val() == "") {
+		console.log("birthday worked");
+		$("#check_birthday").text("This Field is required!");
+		isAllField_Fill = false;
+	}
+	if (!isAllField_Fill) {
+		return;
+	}
 	var checkvalueajax = new XMLHttpRequest();
 			 checkvalueajax.onreadystatechange = function() {
 	    		if (checkvalueajax.readyState == 4 && checkvalueajax.status == 200) {
@@ -276,4 +303,14 @@ function checkAjax() {
  			checkvalueajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 			checkvalueajax.send("userName=" + $("#email").val());
 			console.log($("#email").val());
+}
+function refresh() {
+	$("#check_email").text("");
+	$("#check_user_name").text("");
+	$("#check_birthday").text("");
+	$("#check_password").text("");
+	$("#passWord").val("");
+	$("#inputText").val("");
+	$("#user_name").val("");
+	$("#email").val("");
 }
