@@ -23,7 +23,7 @@ var monters_appeared_mub = 0;
 var auto_run_monter;
 var auto_run_level;
 var main_run;
-var helpScreen,welcomeScreen, highScore;
+var helpScreen,welcomeScreen, highScoreScreen, storyScreen;
 var canClickMenu = true;
 //paramaters
 var speed = 1000;
@@ -98,7 +98,8 @@ var home_icon = new Image();
 home_icon.src = "img/home-icon.png";
 var blood_img = new Image();
 blood_img.src = "img/blood.png";
-
+var how_to_play_img = new Image();
+how_to_play_img.src = "img/huongdanchoi.png";
 function resetMonters(){
   for (var i = 0; i < monters_numb; i++) {
     monters[i] = {
@@ -248,6 +249,7 @@ function mouseMoveHandler(e) {
       }
       if (!isHit) {
         score -= 3;
+        livesBonus = 0;
         if (score < 0) {
           score = 0;
           lives = 0;
@@ -268,7 +270,8 @@ function mouseMoveHandler(e) {
         reset();
         welcomeScreen.start();
         helpScreen.stop();
-        highScore.stop();
+        highScoreScreen.stop();
+        helpScreen.stop();
         $("#situation-place").fadeToggle();
         var wait_time = setInterval(
           function () {
@@ -682,7 +685,7 @@ window.onload = function()
     var i = 70;
     context.font = "50px Comic Sans MS";
     context.fillStyle = "white";
-    context.fillText("HELP",canvas.width/2,30 + i);
+    context.fillText("STORY",canvas.width/2 - 15,30 + i);
 
     context.font = "20px Comic Sans MS";
     context.fillStyle = "white";
@@ -709,9 +712,9 @@ window.onload = function()
       welcomeScreen.start();
     }
   }));
-  //create the highScore screen
-  highScore = new Screen(canvas);
-  highScore.afterDraw = function(context){
+  //create the highScoreScreen screen
+  highScoreScreen = new Screen(canvas);
+  highScoreScreen.afterDraw = function(context){
     var i = 70;
     context.font = "50px Comic Sans MS";
     context.fillStyle = "white";
@@ -721,7 +724,7 @@ window.onload = function()
     context.fillStyle = "red";
     context.fillText(localStorage.highScore,canvas.width/2,250);
   };
-  highScore.addItem(new MenuItem({
+  highScoreScreen.addItem(new MenuItem({
     left: canvas.width/2 - 100,
     top: canvas.height/2 + 200,
     width: 200,
@@ -729,13 +732,34 @@ window.onload = function()
     text: "Back",
     onclick: function(){
       // back to welcome screen
-      highScore.stop();
+      highScoreScreen.stop();
+      welcomeScreen.start();
+    }
+  }));
+  // create the storyScreen screen
+  storyScreen = new Screen(canvas);
+  storyScreen.afterDraw = function(context){
+    var i = 70;
+    context.font = "50px Comic Sans MS";
+    context.fillStyle = "white";
+    context.fillText("How To Play",canvas.width/2,50);
+    context.drawImage(how_to_play_img,50,70, 500, 370);
+  };
+  storyScreen.addItem(new MenuItem({
+    left: canvas.width/2 - 100,
+    top: canvas.height/2 + 200,
+    width: 200,
+    height: 40,
+    text: "Back",
+    onclick: function(){
+      // back to welcome screen
+      storyScreen.stop();
       welcomeScreen.start();
     }
   }));
   // create the welcome screen
   welcomeScreen = new Screen(canvas);
-  var titles = ["Play","Hige Score","Help"];
+  var titles = ["Play","Hige Score","How to play","Story"];
 
   for(var i=0;i<titles.length;i++){
     welcomeScreen.addItem(new MenuItem({
@@ -757,7 +781,8 @@ window.onload = function()
       drawSituation();
       welcomeScreen.stop();
       helpScreen.stop();
-      highScore.stop();
+      highScoreScreen.stop();
+      storyScreen.stop();
       canClickMenu = false;
       main();
     }
@@ -766,18 +791,28 @@ window.onload = function()
     if (canClickMenu) {
       var click_fail_music = new Audio("res/sound/clickfail.wav");
       click_fail_music.play();
-      highScore.start();
+      highScoreScreen.start();
       welcomeScreen.stop();
       helpScreen.stop();
+      storyScreen.stop();
     }
   };
   welcomeScreen.items[2].onclick = function(){
     if (canClickMenu) {
+      helpScreen.stop();
+      highScoreScreen.stop();
+      welcomeScreen.stop();
+      storyScreen.start();
+    }
+  }
+  welcomeScreen.items[3].onclick = function(){
+    if (canClickMenu) {
       var click_fail_music = new Audio("res/sound/clickfail.wav");
       click_fail_music.play();
       helpScreen.start();
-      highScore.stop();
+      highScoreScreen.stop();
       welcomeScreen.stop();
+      storyScreen.stop();
     }
   };
   welcomeScreen.start();
