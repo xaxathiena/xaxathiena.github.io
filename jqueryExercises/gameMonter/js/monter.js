@@ -270,7 +270,12 @@ function mouseMoveHandler(e) {
         helpScreen.stop();
         highScore.stop();
         $("#situation-place").fadeToggle();
-        canClickMenu = true;
+        var wait_time = setInterval(
+          function () {
+            canClickMenu = true;
+            clearInterval(wait_time);
+          }
+        ,1000);
       }
     }
 }
@@ -750,11 +755,11 @@ window.onload = function()
       reset();
       canClick_main_screen = true;
       drawSituation();
-      main();
       welcomeScreen.stop();
       helpScreen.stop();
       highScore.stop();
       canClickMenu = false;
+      main();
     }
   };
   welcomeScreen.items[1].onclick = function(){
