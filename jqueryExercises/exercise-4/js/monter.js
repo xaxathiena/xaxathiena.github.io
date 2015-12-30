@@ -1,16 +1,13 @@
-var main_canvas = document.getElementById("main");
+var main_canvas = $("#main")[0];
 var ctx = main_canvas.getContext("2d");
 
-var situation_canvas = document.getElementById("situation-place");
+var situation_canvas = $("#situation-place")[0];
 var situation_ctx = situation_canvas.getContext("2d");
 //Audio
 var background_music = new Audio("res/sound/musicbackground.mp3");
 var game_over_music = new Audio("res/sound/gameover.wav");
-if (localStorage.highScore == "undefined") {
-  localStorage.highScore = 0;
-}
-  sessionStorage.yourScore = 0;
-
+sessionStorage.highScore = 0;
+sessionStorage.yourScore = 0;
 
 var monter_positionX = main_canvas.width / 2;//width center of canvas
 var monter_positionY = main_canvas.height / 2;//height center of canvas
@@ -23,8 +20,7 @@ var monters_appeared_mub = 0;
 var auto_run_monter;
 var auto_run_level;
 var main_run;
-var helpScreen,welcomeScreen, highScore;
-var canClickMenu = true;
+
 //paramaters
 var speed = 1000;
 var speed_monter = 1.0;
@@ -94,10 +90,9 @@ var game_over = new Image();
 game_over.src = "img/gameover.png";
 var play_again = new Image();
 play_again.src = "img/play_again.png";
-var home_icon = new Image();
-home_icon.src = "img/home-icon.png";
 var blood_img = new Image();
 blood_img.src = "img/blood.png";
+
 
 function resetMonters(){
   for (var i = 0; i < monters_numb; i++) {
@@ -257,20 +252,13 @@ function mouseMoveHandler(e) {
         checkLives();
       }
     }
-    if (isGame_over && canPlay_again && lives < 1) {
-      if (relativeX_main > (main_canvas.width/2 - 100) && relativeX_main < (main_canvas.width/2) &&
-      relativeY_main > 220 && relativeY_main < 320) {
+    if (isGame_over && canPlay_again) {
+      if (relativeX_main > (main_canvas.width/2 - 50) && relativeX_main < (main_canvas.width/2 + 50) &&
+      relativeY_main > 200 && relativeY_main < 300 && lives < 1) {
+        isGame_over = false;
+        canPlay_again = false;
+        canClick_main_screen = true;
         reset();
-        main();
-      }
-      if (relativeX_main > (main_canvas.width/2 + 20) && relativeX_main < (main_canvas.width/2 + 120) &&
-      relativeY_main > 220 && relativeY_main < 320) {
-        reset();
-        welcomeScreen.start();
-        helpScreen.stop();
-        highScore.stop();
-        $("#situation-place").fadeToggle();
-        canClickMenu = true;
       }
     }
 }
@@ -373,7 +361,6 @@ function handingEventOptionClicked(option) {
     break;
     case "reset":
     reset();
-    main();
     break;
     default:
   }
@@ -471,17 +458,16 @@ function drawOptionIcon() {
 }
 function drawGameOver() {
   ctx.fillStyle = "rgba(255,255,255,0.7)";
-  ctx.fillRect(main_canvas.width/2 - 160,0,350,100);
+  ctx.fillRect(main_canvas.width/2 - 160,0,370,100);
   ctx.font = "30px Comic Sans MS";
   ctx.fillStyle = "red";
-  ctx.fillText("YOUR SCORE:  " + sessionStorage.yourScore,main_canvas.width/2,40);
+  ctx.fillText("YOUR SCORE:  " + sessionStorage.yourScore,main_canvas.width/2 - 150,40);
   if (isNew_highScore) {
-    ctx.fillText("NEW HIGH SCORE:  " + localStorage.highScore,main_canvas.width/2 + 10,80);
-  } else ctx.fillText("HIGH SCORE:  " + localStorage.highScore,main_canvas.width/2,80);
+    ctx.fillText("NEW HIGH SCORE:  " + sessionStorage.highScore,main_canvas.width/2 - 150,80);
+  } else ctx.fillText("HIGH SCORE:  " + sessionStorage.highScore,main_canvas.width/2 - 150,80);
 
-  ctx.drawImage(game_over,main_canvas.width/2 - 130,100, 300, 120);
-  ctx.drawImage(play_again,main_canvas.width/2 - 100, 220,100,100);
-  ctx.drawImage(home_icon,main_canvas.width/2 + 20, 220,100,100);
+  ctx.drawImage(game_over,main_canvas.width/2 - 150,100, 300, 120);
+  ctx.drawImage(play_again,main_canvas.width/2 - 50, 200,100,100);
   canClick_main_screen = false;
   drawSituation();
 }
@@ -556,8 +542,8 @@ function checkLives() {
   }
   if (lives < 1) {
     sessionStorage.yourScore = score;
-    if (sessionStorage.yourScore > localStorage.highScore) {
-      localStorage.highScore = sessionStorage.yourScore;
+    if (sessionStorage.yourScore > sessionStorage.highScore) {
+      sessionStorage.highScore = sessionStorage.yourScore;
       isNew_highScore = true;
     } else isNew_highScore = false;
     isGame_over = true;
@@ -597,8 +583,7 @@ function runNewMonter() {
   auto_run_monter = setInterval(run,10);
 }
 
-function resetLevel() {
-  console.log("it repeat!");
+function resetLevel(argument) {
   canClick_main_screen = true;
   if (time_change_level != remaining_time) {
     remaining_time = 20000;
@@ -636,7 +621,7 @@ function reset() {
   speed = 1000;
   speed_monter = 1.0;
   time_change_level = 20000;
-  score = 10;
+  score = 10  ;
   level = 1;
   lives = 5;
   livesBonus = 0;
@@ -652,12 +637,6 @@ function reset() {
   canStop = false;
   canReset = false;
   canPlay = false;
-  isGame_over = false;
-  canPlay_again = false;
-  canClick_main_screen = true;
-  isGame_over = false;
-  canPlay_again = false;
-  canClick_main_screen = true;
   var wait_time_reset = setInterval(function () {
     canUse_boom = true;
     canPause = true;
@@ -665,116 +644,6 @@ function reset() {
     canReset = true;
     clearInterval(wait_time_reset);
   },2000);
+  main();
 }
-
-window.onload = function()
-{
-  $("#situation-place").hide();
-  canClick_main_screen = false;
-  var canvas = $("#main")[0];
-
-  // create the help screen
-  helpScreen = new Screen(canvas);
-  helpScreen.afterDraw = function(context){
-    var i = 70;
-    context.font = "50px Comic Sans MS";
-    context.fillStyle = "white";
-    context.fillText("HELP",canvas.width/2,30 + i);
-
-    context.font = "20px Comic Sans MS";
-    context.fillStyle = "white";
-    context.fillText("Thế giới tinh linh một ngày nọ bị thoát ra một nhóm monter ", canvas.width/2, 100 + i);
-    context.fillText("vô cùng tàn ác. Chúng có âm mưu tiêu diệt cả thế giới loài",canvas.width/2 - 15, 120 + i);
-    context.fillText("người. Nhưng để  lên được thế giới loài người để gây ac,",canvas.width/2 - 28 , 140 + i);
-    context.fillText("chúng phải vượt qua một khu vực tử thần, nơi mà các thần",canvas.width/2 -15 , 160 + i);
-    context.fillText("linh canh giữ. ",86, 180 + i);
-    context.fillText("Nhiệm vụ của người chơi là đóng vai nhưng vị thần, tiêu diệt",canvas.width/2 - 9 , 240 + i);
-    context.fillText("hết lũ monter này trước khi chúng lên được trần gian để ",canvas.width/2 -17, 260 + i);
-    context.fillText("gây hại. ",canvas.width/2 - 22, 280 + i);
-
-
-  };
-  helpScreen.addItem(new MenuItem({
-    left: canvas.width/2 - 100,
-    top: canvas.height/2 + 200,
-    width: 200,
-    height: 40,
-    text: "Back",
-    onclick: function(){
-      // back to welcome screen
-      helpScreen.stop();
-      welcomeScreen.start();
-    }
-  }));
-  //create the highScore screen
-  highScore = new Screen(canvas);
-  highScore.afterDraw = function(context){
-    var i = 70;
-    context.font = "50px Comic Sans MS";
-    context.fillStyle = "white";
-    context.fillText("High Score",canvas.width/2,30 + i);
-
-    context.font = "100px Comic Sans MS";
-    context.fillStyle = "red";
-    context.fillText(localStorage.highScore,canvas.width/2,250);
-  };
-  highScore.addItem(new MenuItem({
-    left: canvas.width/2 - 100,
-    top: canvas.height/2 + 200,
-    width: 200,
-    height: 40,
-    text: "Back",
-    onclick: function(){
-      // back to welcome screen
-      highScore.stop();
-      welcomeScreen.start();
-    }
-  }));
-  // create the welcome screen
-  welcomeScreen = new Screen(canvas);
-  var titles = ["Play","Hige Score","Help"];
-
-  for(var i=0;i<titles.length;i++){
-    welcomeScreen.addItem(new MenuItem({
-      left: canvas.width/2 - 100,
-      top: canvas.height/2 -100 + 60*i,
-      width: 200,
-      height: 40,
-      text: titles[i]
-    }));
-  }
-  welcomeScreen.items[0].onclick = function(){
-    if (canClickMenu) {
-      var click_fail_music = new Audio("res/sound/clickfail.wav");
-      click_fail_music.play();
-      $("#situation-place").fadeToggle();
-      canClick_main_screen = true;
-      reset();
-      canClick_main_screen = true;
-      main();
-      welcomeScreen.stop();
-      helpScreen.stop();
-      highScore.stop();
-      canClickMenu = false;
-    }
-  };
-  welcomeScreen.items[1].onclick = function(){
-    if (canClickMenu) {
-      var click_fail_music = new Audio("res/sound/clickfail.wav");
-      click_fail_music.play();
-      highScore.start();
-      welcomeScreen.stop();
-      helpScreen.stop();
-    }
-  };
-  welcomeScreen.items[2].onclick = function(){
-    if (canClickMenu) {
-      var click_fail_music = new Audio("res/sound/clickfail.wav");
-      click_fail_music.play();
-      helpScreen.start();
-      highScore.stop();
-      welcomeScreen.stop();
-    }
-  };
-  welcomeScreen.start();
-}
+main();
