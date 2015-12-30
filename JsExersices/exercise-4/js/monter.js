@@ -181,14 +181,15 @@ function mouseMoveHandler(e) {
   var relativeX_main = e.clientX - main_canvas.offsetLeft;
   var relativeY_main = e.clientY - main_canvas.offsetTop;
   //handing event click options (boom, reset, pause, stop)
-  if (relativeY_situation > 0 && relativeY_situation < 110) {//clicked on situation place
-    if (relativeY_situation > 60 && relativeY_situation < 100) {//height of all option
-      if (relativeX_situation > resetX && relativeX_situation < (resetX + 40)) {
-        handingEventOptionClicked("reset");
-        return;
+  if (!isGame_over) {
+    if (relativeY_situation > 0 && relativeY_situation < 110) {//clicked on situation place
+      if (relativeY_situation > 60 && relativeY_situation < 100) {//height of all option
+        if (relativeX_situation > resetX && relativeX_situation < (resetX + 40)) {
+          handingEventOptionClicked("reset");
+          return;
+        }
       }
     }
-  }
 
     if (relativeY_situation > 0 && relativeY_situation < 110) {//clicked on situation place
       if (relativeY_situation > 60 && relativeY_situation < 100) {//height of all option
@@ -213,6 +214,7 @@ function mouseMoveHandler(e) {
       }
       return;
     }
+      }
     if (canClick_main_screen) {
     //handing event click main space
     var isHit = false;
