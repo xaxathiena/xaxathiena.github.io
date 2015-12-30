@@ -6,7 +6,8 @@ var situation_ctx = situation_canvas.getContext("2d");
 //Audio
 var background_music = new Audio("res/sound/musicbackground.mp3");
 var game_over_music = new Audio("res/sound/gameover.wav");
-
+sessionStorage.highScore = 0;
+sessionStorage.yourScore = 0;
 
 var monter_positionX = main_canvas.width / 2;//width center of canvas
 var monter_positionY = main_canvas.height / 2;//height center of canvas
@@ -24,7 +25,7 @@ var main_run;
 var speed = 1000;
 var speed_monter = 1.0;
 var time_change_level = 20000;
-var score = 0;
+var score = 10;
 var level = 1;
 var lives = 5;
 var livesBonus = 0;
@@ -53,7 +54,7 @@ var canPlay = false;
 var canPlay_again = false;
 var isGame_over = false;
 var canCountdown_pass_level = false;
-
+var isNew_highScore = false;
 //control option
 var canClick_pause = true;
 var canclick_boom = true;
@@ -241,7 +242,11 @@ function mouseMoveHandler(e) {
         }
       }
       if (!isHit) {
-        lives--;
+        score -= 3;
+        if (score < 0) {
+          score = 0;
+          lives = 0;
+        }
         var click_fail_music = new Audio("res/sound/clickfail.wav");
         click_fail_music.play();
         checkLives();
@@ -452,6 +457,15 @@ function drawOptionIcon() {
   } else situation_ctx.drawImage(reset_icon,resetX,60,40,40);
 }
 function drawGameOver() {
+  ctx.fillStyle = "rgba(255,255,255,0.7)";
+  ctx.fillRect(main_canvas.width/2 - 160,0,350,100);
+  ctx.font = "30px Comic Sans MS";
+  ctx.fillStyle = "red";
+  ctx.fillText("YOUR SCORE:  " + sessionStorage.yourScore,main_canvas.width/2 - 150,40);
+  if (isNew_highScore) {
+    ctx.fillText("NEW HIGH SCORE:  " + sessionStorage.highScore,main_canvas.width/2 - 150,80);
+  } else ctx.fillText("HIGH SCORE:  " + sessionStorage.highScore,main_canvas.width/2 - 150,80);
+
   ctx.drawImage(game_over,main_canvas.width/2 - 150,100, 300, 120);
   ctx.drawImage(play_again,main_canvas.width/2 - 50, 200,100,100);
   canClick_main_screen = false;
@@ -527,6 +541,11 @@ function checkLives() {
     isHeart_big = false;
   }
   if (lives < 1) {
+    sessionStorage.yourScore = score;
+    if (sessionStorage.yourScore > sessionStorage.highScore) {
+      sessionStorage.highScore = sessionStorage.yourScore;
+      isNew_highScore = true;
+    } else isNew_highScore = false;
     isGame_over = true;
       var wait_time = setInterval(
         function () {
@@ -602,7 +621,7 @@ function reset() {
   speed = 1000;
   speed_monter = 1.0;
   time_change_level = 20000;
-  score = 0;
+  score = 10  ;
   level = 1;
   lives = 5;
   livesBonus = 0;
@@ -628,4 +647,3 @@ function reset() {
   main();
 }
 main();
-0
