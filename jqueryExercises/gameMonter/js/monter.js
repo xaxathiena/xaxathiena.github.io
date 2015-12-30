@@ -495,7 +495,6 @@ function drawCountDownNumber(numb) {
   situation_ctx.fillStyle = "red";
   situation_ctx.fillText(numb,situation_canvas.width/2 + 9,25);
 }
-drawSituation();
 
 //create monters if they' status equal 1
 function drawMonters() {
@@ -666,7 +665,6 @@ function reset() {
     clearInterval(wait_time_reset);
   },2000);
 }
-
 window.onload = function()
 {
   $("#situation-place").hide();
@@ -751,6 +749,7 @@ window.onload = function()
       canClick_main_screen = true;
       reset();
       canClick_main_screen = true;
+      drawSituation();
       main();
       welcomeScreen.stop();
       helpScreen.stop();
