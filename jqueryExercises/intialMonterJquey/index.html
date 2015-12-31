@@ -8,18 +8,31 @@
         width: 600px;
         margin: auto;
       }
+      #main {
+        width: 600px;
+        height: 490px;
+        background-color: black;
+      }
     </style>
     <title>Monter Game</title>
     <link rel="stylesheet" href="css/style.css" media="screen" title="no title" charset="utf-8">
     <script src="js/jquery-1.11.3.js">
-
+''
     </script>
   </head>
   <body>
     <center>
       <canvas id="situation-place" width="600" height="130"></canvas>
-      <canvas id="main" width="600" height="490"></canvas>
-      <script src="js/monter.js" charset="utf-8"></script>
+      <div id="main"></div>
+
     </center>
+    <script>
+      $("#main").append("<img id = 'monster1' src='img/prettymonter.png' alt='' /> ");
+      $("#monster1").css({
+        "position":"relative",
+        "left":"50px",
+        "top":"15px"
+      });
+    </script>
   </body>
 </html>

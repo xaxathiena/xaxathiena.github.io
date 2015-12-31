@@ -6,7 +6,7 @@ var situation_ctx = situation_canvas.getContext("2d");
 //Audio
 var background_music = new Audio("res/sound/musicbackground.mp3");
 var game_over_music = new Audio("res/sound/gameover.wav");
-if (localStorage.highScore == "undefined") {
+if (localStorage.highScore == undefined) {
   localStorage.highScore = 0;
 }
   sessionStorage.yourScore = 0;
