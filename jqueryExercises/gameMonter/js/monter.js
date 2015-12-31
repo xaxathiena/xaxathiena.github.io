@@ -115,6 +115,7 @@ function resetMonters(){
     };
   }
 }
+
 function getRandomIntInclusive(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -519,42 +520,42 @@ function update () {
   ctx.clearRect(0, 0, main_canvas.width, main_canvas.height);
   situation_ctx.clearRect(0,0,situation_canvas.width,situation_canvas.height);
   for (var i = 0; i < ((monters_appeared_mub < monters_numb)?monters_appeared_mub:20); i++) {
-    if (monters[i].status == 1) {
-      if ((monters[i].x + 50) < 0 || (monters[i].x + 50) > main_canvas.width||//monters moving out the width screen
-      (monters[i].y + 50) < 0 || (monters[i].y + 50) > main_canvas.height)//monters moving out the height screen
-      {
-        lives--;
-        checkLives();
-        monters[i].status = 0;
-      } else {
-        if (!monters[i].isSwap_direction) {
-          switch (monters[i].sideAppear) {
-            case 1:
-            if (monters[i].x > monters[i].point_swap_direction) {
-              if (getRandomIntInclusive(0,1)) {monters[i].run_stepX = -monters[i].run_stepX; monters[i].run_stepY = -monters[i].run_stepY;monters[i].isSwap_direction = true;}
+      if (monters[i].status == 1) {
+        if ((monters[i].x + 50) < 0 || (monters[i].x + 50) > main_canvas.width||//monters moving out the width screen
+        (monters[i].y + 50) < 0 || (monters[i].y + 50) > main_canvas.height)//monters moving out the height screen
+        {
+          lives--;
+          checkLives();
+          monters[i].status = 0;
+        } else {
+          if (!monters[i].isSwap_direction) {
+            switch (monters[i].sideAppear) {
+              case 1:
+              if (monters[i].x > monters[i].point_swap_direction) {
+                if (getRandomIntInclusive(0,1)) {monters[i].run_stepX = -monters[i].run_stepX; monters[i].run_stepY = -monters[i].run_stepY;monters[i].isSwap_direction = true;}
+              }
+              break;
+              case 2:
+              if (monters[i].x < monters[i].point_swap_direction) {
+                if (getRandomIntInclusive(0,1)) {monters[i].run_stepX = -monters[i].run_stepX; monters[i].run_stepY = -monters[i].run_stepY;monters[i].isSwap_direction = true;}
+              }
+              break;
+              case 3:
+              if (monters[i].y > monters[i].point_swap_direction) {
+                if (getRandomIntInclusive(0,1)) {monters[i].run_stepX = -monters[i].run_stepX; monters[i].run_stepY = -monters[i].run_stepY;monters[i].isSwap_direction = true;}
+              }
+              break;
+              case 4:
+              if (monters[i].y < monters[i].point_swap_direction) {
+                if (getRandomIntInclusive(0,1)) {monters[i].run_stepX = -monters[i].run_stepX; monters[i].run_stepY = -monters[i].run_stepY;monters[i].isSwap_direction = true;}
+              }
+              break;
             }
-            break;
-            case 2:
-            if (monters[i].x < monters[i].point_swap_direction) {
-              if (getRandomIntInclusive(0,1)) {monters[i].run_stepX = -monters[i].run_stepX; monters[i].run_stepY = -monters[i].run_stepY;monters[i].isSwap_direction = true;}
-            }
-            break;
-            case 3:
-            if (monters[i].y > monters[i].point_swap_direction) {
-              if (getRandomIntInclusive(0,1)) {monters[i].run_stepX = -monters[i].run_stepX; monters[i].run_stepY = -monters[i].run_stepY;monters[i].isSwap_direction = true;}
-            }
-            break;
-            case 4:
-            if (monters[i].y < monters[i].point_swap_direction) {
-              if (getRandomIntInclusive(0,1)) {monters[i].run_stepX = -monters[i].run_stepX; monters[i].run_stepY = -monters[i].run_stepY;monters[i].isSwap_direction = true;}
-            }
-            break;
           }
+          monters[i].x += monters[i].run_stepX * level;
+          monters[i].y += monters[i].run_stepY * level;
         }
-        monters[i].x += monters[i].run_stepX * level;
-        monters[i].y += monters[i].run_stepY * level;
       }
-    }
   }
 }
 function checkLives() {
@@ -673,15 +674,14 @@ function reset() {
     clearInterval(wait_time_reset);
   },2000);
 }
-window.onload = function()
-{
+window.onload = function() {
   $("#situation-place").hide();
   canClick_main_screen = false;
   var canvas = $("#main")[0];
 
   // create the help screen
   helpScreen = new Screen(canvas);
-  helpScreen.afterDraw = function(context){
+  helpScreen.afterDraw = function(context) {
     var i = 70;
     context.font = "50px Comic Sans MS";
     context.fillStyle = "white";
@@ -706,7 +706,7 @@ window.onload = function()
     width: 200,
     height: 40,
     text: "Back",
-    onclick: function(){
+    onclick: function() {
       // back to welcome screen
       helpScreen.stop();
       welcomeScreen.start();
@@ -714,7 +714,7 @@ window.onload = function()
   }));
   //create the highScoreScreen screen
   highScoreScreen = new Screen(canvas);
-  highScoreScreen.afterDraw = function(context){
+  highScoreScreen.afterDraw = function(context) {
     var i = 70;
     context.font = "50px Comic Sans MS";
     context.fillStyle = "white";
@@ -730,7 +730,7 @@ window.onload = function()
     width: 200,
     height: 40,
     text: "Back",
-    onclick: function(){
+    onclick: function() {
       // back to welcome screen
       highScoreScreen.stop();
       welcomeScreen.start();
@@ -738,7 +738,7 @@ window.onload = function()
   }));
   // create the storyScreen screen
   storyScreen = new Screen(canvas);
-  storyScreen.afterDraw = function(context){
+  storyScreen.afterDraw = function(context) {
     var i = 70;
     context.font = "50px Comic Sans MS";
     context.fillStyle = "white";
@@ -751,7 +751,7 @@ window.onload = function()
     width: 200,
     height: 40,
     text: "Back",
-    onclick: function(){
+    onclick: function() {
       // back to welcome screen
       storyScreen.stop();
       welcomeScreen.start();
@@ -761,7 +761,7 @@ window.onload = function()
   welcomeScreen = new Screen(canvas);
   var titles = ["Play","Hige Score","How to play","Story"];
 
-  for(var i=0;i<titles.length;i++){
+  for(var i=0;i<titles.length;i++) {
     welcomeScreen.addItem(new MenuItem({
       left: canvas.width/2 - 100,
       top: canvas.height/2 -100 + 60*i,
@@ -770,7 +770,7 @@ window.onload = function()
       text: titles[i]
     }));
   }
-  welcomeScreen.items[0].onclick = function(){
+  welcomeScreen.items[0].onclick = function() {
     if (canClickMenu) {
       var click_fail_music = new Audio("res/sound/clickfail.wav");
       click_fail_music.play();
@@ -787,7 +787,7 @@ window.onload = function()
       main();
     }
   };
-  welcomeScreen.items[1].onclick = function(){
+  welcomeScreen.items[1].onclick = function() {
     if (canClickMenu) {
       var click_fail_music = new Audio("res/sound/clickfail.wav");
       click_fail_music.play();
@@ -797,7 +797,7 @@ window.onload = function()
       storyScreen.stop();
     }
   };
-  welcomeScreen.items[2].onclick = function(){
+  welcomeScreen.items[2].onclick = function() {
     if (canClickMenu) {
       helpScreen.stop();
       highScoreScreen.stop();
@@ -805,7 +805,7 @@ window.onload = function()
       storyScreen.start();
     }
   }
-  welcomeScreen.items[3].onclick = function(){
+  welcomeScreen.items[3].onclick = function() {
     if (canClickMenu) {
       var click_fail_music = new Audio("res/sound/clickfail.wav");
       click_fail_music.play();
