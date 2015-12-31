@@ -689,13 +689,13 @@ window.onload = function()
 
     context.font = "20px Comic Sans MS";
     context.fillStyle = "white";
-    context.fillText("Thế giới tinh linh một ngày nọ bị thoát ra một nhóm monter ", canvas.width/2, 100 + i);
+    context.fillText("Thế giới tinh linh một ngày nọ bị thoát ra một nhóm monster ", canvas.width/2, 100 + i);
     context.fillText("vô cùng tàn ác. Chúng có âm mưu tiêu diệt cả thế giới loài",canvas.width/2 - 15, 120 + i);
     context.fillText("người. Nhưng để  lên được thế giới loài người để gây ac,",canvas.width/2 - 28 , 140 + i);
     context.fillText("chúng phải vượt qua một khu vực tử thần, nơi mà các thần",canvas.width/2 -15 , 160 + i);
     context.fillText("linh canh giữ. ",86, 180 + i);
     context.fillText("Nhiệm vụ của người chơi là đóng vai nhưng vị thần, tiêu diệt",canvas.width/2 - 9 , 240 + i);
-    context.fillText("hết lũ monter này trước khi chúng lên được trần gian để ",canvas.width/2 -17, 260 + i);
+    context.fillText("hết lũ monster này trước khi chúng lên được trần gian để ",canvas.width/2 -17, 260 + i);
     context.fillText("gây hại. ",canvas.width/2 - 22, 280 + i);
 
 
