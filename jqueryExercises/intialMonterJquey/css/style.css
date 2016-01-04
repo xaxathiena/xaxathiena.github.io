@@ -1,27 +1,3 @@
-body {
-  margin-top: -20px;
-  font: 20px Comic Sans MS black;
-}
-#main {
-  width: 600px;
-  height: 490px;
-  background-color: black;
-  margin-left: 25%;
-  position:relative;
-}
-#situation-place {
-  width: 600px;
-  height: 130px;
-  margin-left: 25%;
-  background-color: black;
-  position: relative;
-}
-.score .heart .speed .level .score-cur .level-cur{
-
-}
-.heart1 {
-
-}
-.monster1 .monster2 .monster3 .monster4 .monster5 .monster6 .monster7 .monster8 .monster9 .monster10 .monster11 .monster12 .monster13 .monster14 .monster15 .monster16 .monster17 .monster18 .monster19 .monster0  {
-
+body{
+  margin: auto;
 }
